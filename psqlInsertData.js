@@ -1,26 +1,7 @@
-/*
-create table posts ( 
-  id serial primary key, 
-  title varchar(100) 
-);
-
-create table comments ( 
-  id serial primary key, 
-  post_id integer not null, 
-  comment varchar(100), 
-  foreign key(post_id) references posts(id) 
-);
-
-*/
-var pg = require('pg'),
+var pg = require('./psqlSetup'),
     createData = require('./createData');
 
-
-
-var cs = "pg://ldk:@localhost:5432/ldk"
-
-var client = new pg.Client(cs)
-client.connect()
+var client = pg.client;
 
 var data = createData.getData()
 
@@ -42,10 +23,10 @@ function insertComment( comment ){
 }
 
 
-// for (var i = 0; i < data.posts.length; i++) {
+for (var i = 0; i < data.posts.length; i++) {
 
-//   client.query( insertPost(data.posts[i]) );
-// };
+  client.query( insertPost(data.posts[i]) );
+};
 
 for (var i = 0; i < data.comments.length; i++) {
 
